@@ -1,8 +1,23 @@
-{
-    "page_size": int,
-    "page": int,
-    "data": list,
-    "next_page": int or None,
-    "prev_page": int or None,
-    "total_pages": int
-}
+def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+    """
+    Returns a dictionary containing hypermedia pagination information
+    """
+    # Sayfayı al
+    data = self.get_page(page, page_size)
+
+    # Toplam veri sayısı
+    total_items = len(self.dataset())
+
+    # Toplam sayfa sayısı
+    total_pages = math.ceil(total_items / page_size)
+
+    # Sözlüğü oluştur
+    return {
+        "page_size": len(data),
+        "page": page,
+        "data": data,
+        "next_page": page + 1 if page < total_pages else None,
+        "prev_page": page - 1 if page > 1 else None,
+        "total_pages": total_pages
+    }
+
