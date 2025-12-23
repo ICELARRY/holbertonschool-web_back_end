@@ -1,0 +1,8 @@
+{
+    "page_size": int,
+    "page": int,
+    "data": list,
+    "next_page": int or None,
+    "prev_page": int or None,
+    "total_pages": int
+}
