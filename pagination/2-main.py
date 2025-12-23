@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
+"""Main file for hypermedia pagination"""
 
-Server = __import__('2-hypermedia_pagination').Server
+from hypermedia_pagination import Server
 
 server = Server()
 
@@ -14,3 +12,4 @@ print("---")
 print(server.get_hyper(100, 3))
 print("---")
 print(server.get_hyper(3000, 100))
+
