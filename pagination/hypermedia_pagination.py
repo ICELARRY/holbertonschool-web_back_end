@@ -2,7 +2,7 @@
 """Hypermedia pagination"""
 
 import math
-from simple_pagination import Server as BaseServer, index_range
+from simple_pagination import Server as BaseServer
 
 
 class Server(BaseServer):
@@ -10,10 +10,13 @@ class Server(BaseServer):
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """Return dictionary with hypermedia pagination info"""
+
+        # Veriyi al
         data = self.get_page(page, page_size)
         total_items = len(self.dataset())
         total_pages = math.ceil(total_items / page_size)
 
+        # Sözlüğü hazırla
         return {
             "page_size": len(data),
             "page": page,
