@@ -4,13 +4,11 @@ Deletion-resilient hypermedia pagination
 """
 
 import csv
-import math
 from typing import List, Dict
 
 
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
+    """Server class to paginate a database of popular baby names."""
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
@@ -30,23 +28,27 @@ class Server:
         """Dataset indexed by sorting position, starting at 0"""
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            self.__indexed_dataset = {
-                i: dataset[i] for i in range(len(dataset))
-            }
+            self.__indexed_dataset = {i: dataset[i] for i in range(len(dataset))}
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict:
         """Deletion-resilient hypermedia pagination"""
-        assert index >= 0 and index < len(self.__indexed_dataset)
+        indexed_data = self.indexed_dataset()
+        assert 0 <= index < len(indexed_data)
 
         data = []
         current_index = index
-        while len(data) < page_size and current_index < len(self.__indexed_dataset):
-            if current_index in self.__indexed_dataset:
-                data.append(self.__indexed_dataset[current_index])
+        collected = 0
+
+        # Skip missing entries if some rows were deleted
+        while collected < page_size and current_index < len(indexed_data):
+            if current_index in indexed_data:
+                data.append(indexed_data[current_index])
+                collected += 1
             current_index += 1
 
-        next_index = current_index if current_index < len(self.__indexed_dataset) else None
+        # next_index is the next position to start fetching
+        next_index = current_index if current_index < len(indexed_data) else None
 
         return {
             'index': index,
