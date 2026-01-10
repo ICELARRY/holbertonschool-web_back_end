@@ -3,7 +3,6 @@
 Run multiple task_wait_random coroutines concurrently
 and return list of delays in order of completion.
 """
-
 import asyncio
 from typing import List
 
@@ -18,6 +17,7 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
     tasks = [task_wait_random(max_delay) for _ in range(n)]
     delays: List[float] = []
 
+    # asyncio.as_completed yields tasks as they finish
     for coro in asyncio.as_completed(tasks):
         result: float = await coro
         delays.append(result)
