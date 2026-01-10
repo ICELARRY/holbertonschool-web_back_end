@@ -2,7 +2,7 @@
 """Execute multiple coroutines concurrently and return delays in order of completion"""
 
 import asyncio
-from basic_async_syntax import wait_random
+wait_random = __import__('0-basic_async_syntax').wait_random
 from typing import List
 
 
