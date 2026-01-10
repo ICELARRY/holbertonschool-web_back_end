@@ -2,14 +2,18 @@
 """Execute multiple coroutines concurrently and return delays in order of completion"""
 
 import asyncio
-wait_random = __import__('0-basic_async_syntax').wait_random
 from typing import List
+
+# Import __import__ should be after standard imports, max 79 chars
+wait_random = __import__(
+    '0-basic_async_syntax'
+).wait_random
 
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
     """
     Spawn wait_random n times with max_delay.
-    Return list of delays in ascending order without using sort()
+    Return list of delays in ascending order without using sort().
     """
     tasks = [wait_random(max_delay) for _ in range(n)]
     delays: List[float] = []
