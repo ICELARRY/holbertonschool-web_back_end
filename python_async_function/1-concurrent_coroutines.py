@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Execute multiple coroutines concurrently and return delays in order of completion"""
+"""
+Execute multiple coroutines concurrently and return delays
+in order of completion
+"""
 
 import asyncio
 from typing import List
 
-# Import __import__ should be after standard imports, max 79 chars
 wait_random = __import__(
     '0-basic_async_syntax'
 ).wait_random
