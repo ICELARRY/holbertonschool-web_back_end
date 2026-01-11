@@ -1,25 +1,35 @@
 #!/usr/bin/env python3
 """
-Run multiple task_wait_random coroutines concurrently
-and return list of delays in order of completion.
+4-tasks.py
+Create task_wait_n function using task_wait_random
 """
+
 import asyncio
 from typing import List
 
-task_wait_random = __import__('3-tasks').task_wait_random
+task_wait_random = _import_('3-tasks').task_wait_random
 
 
 async def task_wait_n(n: int, max_delay: int) -> List[float]:
     """
-    Spawn task_wait_random n times with max_delay.
-    Return list of delays in order of completion without using sort().
+    Execute task_wait_random multiple times
+
+    Args:
+        n: execution count
+        max_delay: delay limit
+
+    Returns:
+        ordered delay values
     """
     tasks = [task_wait_random(max_delay) for _ in range(n)]
-    delays: List[float] = []
 
-    # asyncio.as_completed yields tasks as they finish
-    for coro in asyncio.as_completed(tasks):
-        result: float = await coro
-        delays.append(result)
+    all_values = await asyncio.gather(*tasks)
 
-    return delays
+    ordered = []
+    for val in all_values:
+        pos = 0
+        while pos < len(ordered) and val > ordered[pos]:
+            pos += 1
+        ordered.insert(pos, val)
+
+    return ordered
